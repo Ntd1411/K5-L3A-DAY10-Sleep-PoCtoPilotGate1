@@ -1,12 +1,16 @@
 {
-  "team": "",
-  "members": [],
-  "incident": "",
-  "decision_v1": "",
-  "decision_v2": "",
+  "team": "K5-L3A-DAY10-Sleep-PoCtoPilotGate1",
+  "members": [
+    "NguyenTuanDung-2A202603559",
+    "NguyenXuanHung-2A202603599",
+    "NguyenHuyGiang-2A202603543"
+  ],
+  "incident": "S3",
+  "decision_v1": "Tiếp tục",
+  "decision_v2": "Tiếp tục",
   "three_lines": {
-    "environment_assumption": "",
-    "reduce_or_prevent": "",
-    "measure_in_pilot": ""
+    "environment_assumption": "Bộ phận vận hành và kỹ thuật luôn cập nhật cờ index_active đồng bộ tức thì với ngày hiệu lực của chính sách mới và tài xế hiện trường luôn ghi nhận nguyên nhân giao trễ đầy đủ trong điều kiện thiên tai bão lũ.",
+    "reduce_or_prevent": "Cổng của đội thực sự NGĂN được tác hại vì pre_guard ép cứng chính sách theo khoảng ngày hiệu lực pháp lý và write_gate chặn dứt điểm lệnh ghi lỗi hãng nếu thiếu nguyên nhân hoặc là thiên tai bất khả kháng.",
+    "measure_in_pilot": "Cần đo lại tỉ lệ trễ cập nhật trạng thái đơn hàng của tài xế ngoài thực tế và độ trễ phản hồi của nhân viên khi tiếp nhận ca duyệt chuyển tiếp trong điều kiện thời tiết xấu."
   }
 }

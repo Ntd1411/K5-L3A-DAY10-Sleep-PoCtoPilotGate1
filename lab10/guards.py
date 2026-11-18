@@ -16,10 +16,19 @@ from .tools import Verdict
 
 
 def pre_guard(ctx):
-    pol = H.effective_policy(ctx.tools.lookup_policies(), ctx.as_of)
+    policies = ctx.tools.lookup_policies()
+    pol = H.effective_policy(policies, ctx.as_of)
+    active = next((p for p in policies if p.get("index_active")), None)
     if pol is not None:
+        if active is not None and active.get("policy_id") != pol["policy_id"]:
+            ctx.log(
+                "stale_policy_index",
+                active_policy=active.get("policy_id"),
+                effective_policy=pol["policy_id"],
+                as_of=ctx.as_of,
+            )
         return Verdict.allow(policy_id=pol["policy_id"])
-    return Verdict.allow()
+    return Verdict.escalate("không tìm thấy chính sách hoàn tiền có hiệu lực tại ngày xử lý")
 
 
 def write_gate(ctx, action):
@@ -92,6 +101,14 @@ def write_gate(ctx, action):
         parcel = H.ticket_parcel(order, ctx.ticket, ctx.as_of)
         delay = H.db_delay_days(parcel, ctx.as_of)
         if not H.carrier_at_fault(pol, parcel, delay):
+            ctx.log(
+                "carrier_fault_blocked",
+                order_id=order["order_id"],
+                parcel_id=parcel["parcel_id"],
+                carrier_id=parcel["carrier_id"],
+                recorded_cause=parcel.get("delay_cause"),
+                delay_days=delay,
+            )
             return Verdict.deny("hãng vận chuyển không có lỗi theo chính sách và tracking DB hiện hành")
         limits = ctx.tools.ops_limits()
         max_strikes = limits.get("max_auto_strikes_per_carrier_per_day")
@@ -99,6 +116,12 @@ def write_gate(ctx, action):
         if max_strikes is not None:
             strikes_today = len(ctx.tools.fault_rows(carrier_id=carrier_id))
             if strikes_today >= max_strikes:
+                ctx.log(
+                    "carrier_strike_cap_blocked",
+                    carrier_id=carrier_id,
+                    strikes_today=strikes_today,
+                    max_strikes=max_strikes,
+                )
                 return Verdict.deny("vượt trần số lỗi tự động tối đa cho một hãng trong ngày")
         if (action.get("parcel_id") != parcel["parcel_id"]
                 or action.get("carrier_id") != carrier_id

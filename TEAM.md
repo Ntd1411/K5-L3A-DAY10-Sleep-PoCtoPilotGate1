@@ -5,7 +5,7 @@
 - Tên nhóm: Sleep
 - Lớp: `L3A`
 - Repo của bàn: `K5-L3A-DAY10-Sleep-PoCtoPilotGate1`
-- Thẻ sự cố đã bốc (S1–S8):
+- Thẻ sự cố đã bốc (S1–S8): S3
 
 ## Thành viên
 
