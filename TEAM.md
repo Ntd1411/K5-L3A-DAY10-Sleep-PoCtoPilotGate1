@@ -15,7 +15,7 @@ Họ tên đầy đủ và MSSV của **mọi** thành viên; thêm dòng nếu 
 | --: | --------- | ---- | --- | :---------: |
 |   1 | Nguyễn Tuấn Dũng | 2A202603559 | Kỹ sư cổng |             |
 |   2 | Nguyễn Xuân Hùng | 2A202603599 | Vận hành và pháp lý |             |
-|   3 | Nguyễn Huy Giang | 2A202603543 | Vận hành và pháp lý |             |
+|   3 | Nguyễn Huy Giang | 2A202603543 | Sản phẩm và kinh doanh |             |
 
 Ghi `members` trong `submission/submission.json` theo dạng `"HoVaTen-MSSV"`, khớp bảng trên.
 

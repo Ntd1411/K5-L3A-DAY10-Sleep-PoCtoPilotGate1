@@ -47,12 +47,12 @@ trợ lý có đang gây thiệt hại cho bên ngoài LogiX không; không có 
 
 | | Offline, cho MỘT bước (câu 1.3) | Telemetry production (câu 1.4) |
 |---|---|---|
-| **Bước / hành vi được đo** | | |
-| **Thước đo** (một câu, có đơn vị) | | |
-| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn) | | |
-| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | | |
+| **Bước / hành vi được đo** | **Bước chọn chính sách hoàn tiền (`policy`):** kiểm tra xem agent có chọn đúng phiên bản chính sách bồi thường đang có hiệu lực tại ngày xử lý (`as_of = "2026-11-16"`) hay chọn nhầm chính sách cũ đã hết hạn (`stale_clause`). | |
+| **Thước đo** (một câu, có đơn vị) | Tỉ lệ lần chạy mà agent chọn sai phiên bản chính sách bồi thường (chọn chính sách có `effective_to < as_of` hoặc không phải chính sách hiện hành `REFUND-v2`), đơn vị: `%` (hoặc tỉ lệ từ 0,0 đến 1,0). | |
+| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn) | Sự kiện `policy` (`e["policy_id"]`) trong trace sự kiện của agent tại `runs/<mã lần chạy>/traces/` (hoặc `ctx.events`), lấy trên 22 ticket × 5 seed = 110 runs của bộ nền. Nhãn đúng/sai được xác định tất định từ bảng chính sách trong `data/world.json` mục `policies` (chính sách hợp lệ duy nhất tại ngày 16/11/2026 là `REFUND-v2`). | |
+| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | Số lần chạy có sự kiện `policy` mang `policy_id != "REFUND-v2"` chia cho tổng số lần chạy phát sinh sự kiện `policy` (mẫu số chuẩn là 110). Những lần chạy bị lỗi crash hoặc ngắt ở bước trước (`pre_guard` hoặc `llm_extract`) không phát sinh sự kiện `policy` sẽ bị loại khỏi mẫu số và được đếm riêng vào nhóm lỗi trích xuất. | |
 | **Khung thời gian / ngưỡng báo động** | (không áp dụng) | |
-| **Điểm mù** (thước đo này KHÔNG thấy gì) | | |
+| **Điểm mù** (thước đo này KHÔNG thấy gì) | Thước đo này chỉ kiểm tra việc chọn đúng mã chính sách (`policy_id`), KHÔNG thấy được trường hợp agent chọn đúng chính sách nhưng lại tính sai công thức số học bên trong (ví dụ cộng gộp sai điều khoản `sum_parts` hoặc làm tròn sai `round_down`). | |
 
 **Ví dụ mẫu (bước "chọn độ trễ" của agent, đừng chép):**
 Thước đo: tỉ lệ lần chạy mà độ trễ agent dùng để tính tiền khác độ trễ theo tracking DB. Dữ liệu: sự kiện `proposal.delay_days_used`
