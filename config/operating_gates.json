@@ -7,18 +7,25 @@
     "roi_min": null
   },
   "operations": {
-    "pic": "",
-    "approver_id": "",
+    "pic": "NV-TUNG",
+    "approver_id": "NV-HANH",
     "reviewers_on_shift": 1,
-    "review_capacity_per_hour": null,
-    "max_queue_wait_minutes": null,
-    "stop_conditions": [],
-    "alert_channel": "",
-    "decision_note": false,
-    "review_sampling_pct": 0
+    "review_capacity_per_hour": 6,
+    "max_queue_wait_minutes": 60,
+    "stop_conditions": [
+      "Khi có >= 1 lỗi ghi oan cho hãng vận chuyển (wrongful_carrier_faults > 0) thì tắt công tắc file_carrier_fault trong config/switches.json",
+      "Khi có >= 1 vụ lộ dữ liệu cá nhân cho bên thứ ba (pii_leaks > 0) thì tắt công tắc notify_carrier trong config/switches.json",
+      "Khi tiền hoàn sai > 0đ (wrongful_refund_vnd > 0) hoặc số ca bị ùn > 0 (queue_stuck > 0, chờ quá SLA 60 phút) thì tắt công tắc issue_refund trong config/switches.json"
+    ],
+    "alert_channel": "#logix-pilot-gate1-alerts",
+    "decision_note": true,
+    "review_sampling_pct": 10
   },
   "legal": {
-    "pii_fields_blocked_to_third_party": [],
-    "carrier_fault_requires_recorded_cause": false
+    "pii_fields_blocked_to_third_party": [
+      "recipient_contact",
+      "customer_note"
+    ],
+    "carrier_fault_requires_recorded_cause": true
   }
 }
