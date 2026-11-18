@@ -20,7 +20,7 @@ rồi mới chạy đánh giá. Khối 1 không sửa code.
 
 ### Câu 1.1 · Một mục tiêu cấp hệ thống (khác "model trả lời đúng")
 
-> …
+> Tự động hoá quy trình xử lý yêu cầu hoàn tiền do giao hàng trễ của LogiX-VN nhằm rút ngắn thời gian phản hồi cho khách hàng từ 24 giờ xuống dưới 15 phút, tiết kiệm ít nhất 20% chi phí vận hành ticket so với xử lý thủ công (dưới 8.000 VNĐ/ticket so với 10.000 VNĐ/ticket làm tay), đồng thời triệt tiêu thất thoát tài chính (0 VNĐ hoàn sai) và bảo vệ quan hệ hợp tác với các hãng vận chuyển (0 lỗi ghi phạt oan).
 
 ### Câu 1.2 · Mục tiêu nhìn từ hai người
 
