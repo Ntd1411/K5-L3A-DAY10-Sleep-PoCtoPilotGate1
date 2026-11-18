@@ -1,11 +1,13 @@
 {
- "run_id": "R-S3-grade-20261118-191038-1f17a5",
+ "run_id": "R-S3-grade-20261118-203107-dfdf7b",
  "incident": "S3",
  "grader_version": "lab10-1.0",
- "code_hash": "1f17a5b3874d7cbdf7d251f98053f6f8808d05215889ef8794a7bc7a580d124c",
+ "code_hash": "dfdf7bf880f9fc384fcffb9d14da213fb1c9213d2e4cbc040a6510a905bee263",
  "integrity": {
   "ok": false,
   "changed": [
+   "data/tickets.jsonl",
+   "data/world.json",
    "incidents/S1/card.json",
    "incidents/S1/card.md",
    "incidents/S1/tickets.jsonl",
@@ -33,7 +35,24 @@
    "incidents/S8/card.json",
    "incidents/S8/card.md",
    "incidents/S8/tickets.jsonl",
-   "incidents/S8/world_patch.json"
+   "incidents/S8/world_patch.json",
+   "lab10/__init__.py",
+   "lab10/_gradectx.py",
+   "lab10/_noop_guards.py",
+   "lab10/agent.py",
+   "lab10/check_submission.py",
+   "lab10/checkpoint.py",
+   "lab10/criteria.py",
+   "lab10/eval.py",
+   "lab10/gate.py",
+   "lab10/grade.py",
+   "lab10/helpers.py",
+   "lab10/mock_llm.py",
+   "lab10/ops.py",
+   "lab10/tools.py",
+   "lab10/trace.py",
+   "lab10/world.py",
+   "tests/test_public.py"
   ],
   "manifest": "MANIFEST.json"
  },
@@ -53,10 +72,10 @@
   "status": "khớp"
  },
  "checkpoint": {
-  "ok": true,
+  "ok": false,
   "taken": true,
   "hash": "586b476ce632e4912a023f564e339f94716c491e98cd29f823affb314903a417",
-  "problem": null,
+  "problem": "bản chốt vòng 1 ĐÃ BỊ SỬA sau khi chốt",
   "taken_at": "2026-11-18T17:06:18"
  },
  "before": {
@@ -1329,9 +1348,9 @@
   }
  },
  "run_ids": {
-  "before": "R-S3-before-20261118-191039-1f17a5",
-  "prepared": "R-S3-prepared-20261118-191039-1f17a5",
-  "after": "R-S3-after-20261118-191039-1f17a5"
+  "before": "R-S3-before-20261118-203108-dfdf7b",
+  "prepared": "R-S3-prepared-20261118-203108-dfdf7b",
+  "after": "R-S3-after-20261118-203108-dfdf7b"
  },
  "visible": {
   "before_red": true,
@@ -1415,5 +1434,5 @@
  "hard_gates_ok": false,
  "score": null,
  "verdict": "FAIL",
- "seconds": 0.694
+ "seconds": 0.54
 }

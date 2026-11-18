@@ -61,6 +61,49 @@ Mỗi thành viên tự viết một mục bên dưới (chép mẫu, đổi ti�
 
 ---
 
+## NguyenHuyGiang-2A202603543
+
+### Phần việc phụ trách
+
+- **Vai trong bàn:** Sản phẩm và kinh doanh (Product & Business / Product Manager).
+- **Phụ trách câu hỏi & mục phiếu:**
+  - Câu 1.1, 1.5, 1.6 (Phiếu A: A1 Mục tiêu cấp hệ thống, A3 Đọc khoảng tin cậy bootstrap CI 95%, A4 Soạn thảo Bản tiêu chí nghiệm thu "Nếu... thì...", 2 Ranh giới đầu ra, Bảng soát 4 câu hỏi, Chốt ngưỡng kinh doanh & vận hành, A5 Ký tiêu chí).
+  - Câu 2.3, 2.5, 2.9 (Phiếu B: B3 Bản đồ dữ liệu, Nguồn sự thật vs Bản sao, Dự báo Concept Drift trong 3 tháng tới; B6 Pre-mortem lăng kính Kinh doanh; B7.4 Thiết lập Cổng kinh doanh trong config).
+  - Câu 2.10 & Chốt vòng 1 B8: Phân tích báo cáo mốc `prepared`, đối chiếu bộ tiêu chí đã ký và cùng ra Quyết định Gate 1 v1.
+  - Câu 3.2, 3.5, C12 (Phiếu C: C5 Thiết lập Specification nghiệp vụ kiểm chứng được cho sự cố S3; C7 Tham gia xác định các biện pháp điều chỉnh kinh tế/vận hành ngoài model; C12 Ra Quyết định Gate 1 v2 và hoàn thiện 3 dòng luận điểm bắt buộc).
+- **Files phụ trách chính:**
+  - `config/acceptance_criteria.json` (thiết lập bộ tiêu chí nghiệm thu ban đầu, cam kết Zero-loss, trần chi phí ticket <= 8.000đ, ROI >= 0.2, điều kiện dừng và 4 luật quyết định).
+  - `config/operating_gates.json` (mục `business`: `daily_refund_cap_vnd: 2000000`, `cost_budget_per_ticket_vnd: 1500`, `pilot_scope`, `roi_min: 0.25`).
+  - `templates/form-a-criteria.md`, `templates/form-b-evaluation-gates.md` (mục B3, B7.4, B8), `templates/form-c-incident.md` (mục C5, C12).
+
+### Đóng góp cụ thể
+
+- **Xây dựng Bản tiêu chí nghiệm thu chuẩn hóa (`config/acceptance_criteria.json` & Phiếu A):**
+  - Thiết lập kỷ luật "Ký trước khi đo", định nghĩa các ngưỡng an toàn tài chính tuyệt đối (`wrongful_refund_vnd_max = 0`, `wrongful_carrier_faults_max = 0`, `pii_leaks_max = 0`) nhằm bảo vệ quỹ tài chính LogiX và quan hệ đối tác chiến lược với các hãng vận chuyển.
+  - Đặt trần chi phí mỗi ticket AI ($\le 8.000$đ) thấp hơn làm thủ công ($10.000$đ) và yêu cầu ROI tối thiểu đạt 20%, đảm bảo tính khả thi kinh tế của trợ lý khi triển khai thật.
+- **Phân tích dòng chảy dữ liệu và dự báo Concept Drift (Phiếu B · Mục B3):**
+  - Phân định rõ nguồn sự thật (dữ liệu máy quét bưu tá `delivered_date`, cam kết lúc đặt hàng `estimated_delivery_date`) và bản sao trôi nổi (lời khai chủ quan của khách).
+  - Dự báo chính xác tình huống Concept Drift khi chuyển đổi giữa các phiên bản chính sách bồi thường (chính là nguyên nhân cốt lõi gây ra sự cố phạt oan hãng ở thẻ S3).
+- **Thiết lập Cổng kinh doanh an toàn (`config/operating_gates.json` mục `business`):**
+  - Khống chế trần tiền hoàn tự động tối đa 2.000.000đ/ngày, trần chi phí LLM tối đa 1.500đ/ticket theo đúng định mức tài chính trong `ops_limits` và `ops_facts`.
+  - Định hình phạm vi pilot và cơ chế kiểm soát rủi ro tài chính nhiều tầng.
+- **Định hướng và bảo vệ Quyết định Gate 1 (v1 và v2):**
+  - Cùng nhóm phân tích dữ liệu report ở cả 3 mốc (base, prepared, after); bảo vệ luận điểm đưa dự án tiếp tục sang giai đoạn Pilot (chọn **Tiếp tục**) dựa trên bằng chứng dữ liệu thực tế đạt chuẩn 100%: pass rate đạt 1.0, 0 hoàn sai, 0 phạt oan hãng, ROI đạt 1.27 (tiết kiệm ròng hơn 67.000đ/ngày giả lập).
+  - Soạn thảo 3 dòng luận điểm bắt buộc giải trình về giả định môi trường, cơ chế ngăn chặn tác hại và các chỉ số cần đo lại trong pilot thật.
+
+### Bằng chứng
+
+- **Mã commit:** `1f9ee79`, `17f1ecc`, `238d033`, `1904857`, `9edf7be`.
+- **Mã lần chạy:** `R-S3-grade-20261118-203107-dfdf7b`, `R-S3-after-20261118-203108-dfdf7b`, `R-base-after-20261118-173436-1f17a5`.
+- **Dòng trong phiếu:** Phiếu A (A1, A3, A4, A5), Phiếu B (B3, B7.4, B8), Phiếu C (C5, C12).
+
+### Exit ticket
+
+- **Một điều học được:** Bài học sâu sắc nhất là nguyên tắc "Đặt luật trước, xem số sau" (ký tiêu chí trước khi chạy đánh giá). Việc này giúp đội sản phẩm giữ vững kỷ luật kinh doanh, không bị thiên vị hay thỏa hiệp hạ thấp tiêu chuẩn an toàn khi thấy mô hình gặp lỗi ngoài dự kiến.
+- **Một điều còn chưa chắc:** Trong môi trường pilot thực tế với khách hàng và đơn hàng thật, các đợt siêu sale (11/11, 12/12) với hàng chục ngàn yêu cầu dồn dập có thể làm nghẽn webhook tracking của các hãng vận chuyển nhỏ, đòi hỏi phải có cơ chế dynamic fallback chuyển người duyệt linh hoạt hơn.
+
+---
+
 ## HoVaTen-MSSV
 
 ### Phần việc phụ trách
