@@ -104,21 +104,36 @@ Mỗi thành viên tự viết một mục bên dưới (chép mẫu, đổi ti�
 
 ---
 
-## HoVaTen-MSSV
+## NguyenXuanHung-2A202603599
 
 ### Phần việc phụ trách
 
-Vai trong bàn; câu nào của đề, mục nào của phiếu A/B/C, file nào (`lab10/guards.py`, `config/operating_gates.json`, …).
+- **Vai trong bàn:** Vận hành và pháp lý (Operations & Legal).
+- **Phụ trách câu hỏi & mục phiếu:**
+  - Câu 1.2, 1.4 (Phiếu A: A1 Mục tiêu nhìn từ chị Oanh kế toán đối soát `NV-OANH` và chị Hạnh trưởng ca CSKH `NV-HANH`; A2 Thiết kế Telemetry production phát hiện phạt oan hãng vận chuyển và rò rỉ dữ liệu cá nhân ra bên ngoài LogiX).
+  - Câu 2.4, 2.5, 2.10 (Phiếu B: B4 Bảng HAZOP vòng 1 gồm 5 dòng kỹ thuật và 3 dòng mở rộng ngoài kỹ thuật; B5 Checklist go-live 9 nhóm việc lần 1 có gán tên PIC cụ thể; B6 Pre-mortem lăng kính Con người & vận hành và Pháp lý; B7.5 Thiết lập cổng con người, vận hành, pháp lý và viết Runbook phần 1–3; B7.6 Kịch bản điều phối Giờ cao điểm).
+  - Câu 3.0, 3.1, 3.3, 3.5, 3.7 (Phiếu C: C1 Đối chiếu pre-mortem sau khi bốc thẻ S3; C4 HAZOP sự cố S3; C5 Giả định môi trường ngoài phần mềm bị sai trong cơn bão số 9 miền Tây; C10 Risk register; C11 Cập nhật Checklist 9 nhóm việc và viết Runbook phần 4–5 cùng 3 kịch bản ứng phó tuần đầu pilot).
+- **Files phụ trách chính:**
+  - `config/operating_gates.json` (khối `operations` và `legal`: cấu hình PIC `NV-TUNG`, người duyệt `NV-HANH`, công suất 6 ca/giờ, SLA chờ 60 phút, điều kiện dừng, kênh báo tin `#logix-pilot-gate1-alerts`, `decision_note = true`, `review_sampling_pct = 10`, chặn trường PII `recipient_contact`/`customer_note`, và bật `carrier_fault_requires_recorded_cause = true`).
+  - `templates/form-a-criteria.md`, `templates/form-b-evaluation-gates.md`, `templates/form-c-incident.md`, `submission/submission.json`, `TEAM.md`.
 
 ### Đóng góp cụ thể
 
-...
+- **Thiết lập rào chắn Pháp lý & Bảo vệ bên thứ ba ngay từ Vòng 1 (`config/operating_gates.json` mục `legal`):**
+  - Bật sẵn `legal.carrier_fault_requires_recorded_cause = true` và `legal.pii_fields_blocked_to_third_party = ["recipient_contact", "customer_note"]` trước khi chốt `checkpoint` Vòng 1 (mốc `prepared`). Nhờ đó, khi bốc trúng thẻ sự cố S3 (Hãng miền Tây `MKD` bị phạt oan trong bão số 9 và đơn thiếu `delay_cause`), cổng Vòng 1 đã tự động chặn đứng toàn bộ các lệnh phạt hãng khi hiện trường chưa kịp ghi nhận nguyên nhân và loại bỏ 100% nguy cơ rò rỉ PII.
+- **Thiết kế quy trình Vận hành, Hàng chờ người duyệt và Runbook trực ca (`config/operating_gates.json` mục `operations` & Phiếu B, C):**
+  - Thiết lập cơ chế duy trì lòng tin của nhân viên CSKH (`trust = đạt`) thông qua việc bật `decision_note = true` (giảm thời gian kiểm lại từ 10 phút xuống 4 phút = `0.4 ca`), đặt tỉ lệ kiểm mẫu `review_sampling_pct = 10%` và chỉ định đúng người duyệt có thẩm quyền `approver_id = "NV-HANH"`, giữ thời gian chờ `wait_max_min = 0.0 phút` và `queue_stuck = 0`.
+  - Xây dựng Runbook 5 phần hoàn chỉnh: phân quyền rõ ràng cho `NV-TUNG` (giữ cầu dao `config/switches.json` tắt trong vòng 5 phút khi có tín hiệu ĐỎ), `NV-HANH` (điều phối ca trực và gọi thêm người khi chạm ngưỡng VÀNG 40 phút) và `NV-OANH` (đối soát hãng/shop), kèm quy trình thông báo thu hồi lỗi phạt oan cho hãng Mekong Delta Ship (`MKD`) trong sự cố S3.
+- **Sử dụng công cụ AI hỗ trợ:** Có sử dụng trợ lý AI để tra cứu nhanh cấu trúc dữ liệu `data/world.json`, rà soát tính nhất quán của các con số giữa `config/operating_gates.json` với Runbook phần 1–5 và kiểm tra định dạng bảng Markdown trong các phiếu A, B, C. Mọi ngưỡng vận hành, phân công PIC và quyết định Gate 1 v1/v2 đều do bàn thảo luận và tự quyết định.
 
 ### Bằng chứng
 
-Mã commit, mã lần chạy (`runs/<mã>`), dòng trong phiếu.
+- **Mã commit:** `6b09598`, `fb3bcdc`, `999b935`, `238d033`.
+- **Mã lần chạy:** `R-base-before-20261118-160104-b45eeb`, `R-base-prepared-20261118-170618-f5ecb6`, `R-S3-grade-20261118-203107-dfdf7b`.
+- **Dòng trong phiếu:** Phiếu A (mục A1 câu 1.2, mục A2 câu 1.4), Phiếu B (mục B4, B5, B6, B7.5, B7.6, B8), Phiếu C (mục C1, C4, C5 câu 3.3, C10, C11, C12).
 
 ### Exit ticket
 
-Một điều học được, một điều còn chưa chắc.
+- **Một điều học được:** Nhiều rủi ro nghiêm trọng của hệ thống AI khi đưa vào vận hành thực tế (như phạt oan đối tác vận chuyển làm đứt gãy hợp đồng, lộ thông tin người nhận quà, hoặc nhân viên mất lòng tin phải kiểm lại tay 100% gây vỡ trận hàng chờ) không thể giải quyết chỉ bằng cách tinh chỉnh prompt hay model, mà bắt buộc phải được kiểm soát bằng các cổng cấu hình vận hành/pháp lý (`operating_gates.json`), cầu dao ngắt khẩn cấp (`switches.json`) và một Runbook có người chịu trách nhiệm rõ ràng.
+- **Một điều còn chưa chắc:** Khi mở rộng triển khai ra toàn bộ các kho trong mùa cao điểm hoặc thiên tai kéo dài làm tỷ lệ `escalate` tăng đột biến, việc cân đối giữa chi phí thuê thêm nhân sự trực giữ chỗ (`30.000đ/ca/người`) và việc tạm thời thu hẹp phạm vi tự động hóa (`pilot_scope`) cần được đo đạc thêm trên lưu lượng thật để tối ưu hóa đồng thời cả SLA 60 phút lẫn chỉ số ROI.
 
